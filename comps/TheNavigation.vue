@@ -1,6 +1,12 @@
 <template>
-  <div class="the-navigation">The navigation</div>
+  <the-grid class="the-navigation">
+    <strong class="span-1">ISIBISI</strong>
+    <nuxt-link class="span-1 text-center bg-black" to="/">Homepage</nuxt-link>
+  </the-grid>
 </template>
+<script setup>
+import TheGrid from "~/comps/TheGrid.vue";
+</script>
 <style scoped lang="scss">
 .the-navigation {
   padding: 1em;

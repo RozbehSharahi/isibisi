@@ -151,7 +151,7 @@ onMounted(async () => {
 </template>
 <style lang="scss" scoped>
 .the-quest {
-  height: 99vh;
+  height: 80vh;
 }
 
 .bigger {
