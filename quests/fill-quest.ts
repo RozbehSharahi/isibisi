@@ -1,5 +1,10 @@
 import { randomInteger, shuffle } from "~/utils/random";
 
+const MINUS = "&minus;";
+const PLUS = "+";
+const EQUALS = "=";
+const X = "x";
+
 export class FillQuest {
   public static createSumQuest(): FillQuest {
     const calculation: string[] = [];
@@ -8,10 +13,10 @@ export class FillQuest {
     const number2 = randomInteger(1, 9);
 
     calculation.push(number1.toString());
-    calculation.push("+");
+    calculation.push(PLUS);
     calculation.push(number2.toString());
-    calculation.push("=");
-    calculation.push("x");
+    calculation.push(EQUALS);
+    calculation.push(X);
 
     return new FillQuest(calculation.join(" "), number1 + number2);
   }
@@ -24,12 +29,12 @@ export class FillQuest {
     const number3 = randomInteger(1, 6);
 
     calculation.push(number1.toString());
-    calculation.push("+");
+    calculation.push(PLUS);
     calculation.push(number2.toString());
-    calculation.push("+");
+    calculation.push(PLUS);
     calculation.push(number3.toString());
-    calculation.push("=");
-    calculation.push("x");
+    calculation.push(EQUALS);
+    calculation.push(X);
 
     return new FillQuest(calculation.join(" "), number1 + number2 + number3);
   }
@@ -44,11 +49,11 @@ export class FillQuest {
     const leftSide = shuffle([number1.toString(), number2.toString(), "x"]);
 
     calculation.push(leftSide[0]);
-    calculation.push("+");
+    calculation.push(PLUS);
     calculation.push(leftSide[1]);
-    calculation.push("+");
+    calculation.push(PLUS);
     calculation.push(leftSide[2]);
-    calculation.push("=");
+    calculation.push(EQUALS);
     calculation.push(number3.toString());
 
     return new FillQuest(calculation.join(" "), number3 - number2 - number1);
@@ -61,10 +66,10 @@ export class FillQuest {
     const number2 = randomInteger(1, 8);
 
     calculation.push(number1.toString());
-    calculation.push("-");
+    calculation.push(MINUS);
     calculation.push(number2.toString());
-    calculation.push("=");
-    calculation.push("x");
+    calculation.push(EQUALS);
+    calculation.push(X);
 
     return new FillQuest(calculation.join(" "), number1 - number2);
   }
@@ -81,7 +86,7 @@ export class FillQuest {
 
   public getParts(): SumGamePart[] {
     return this.calculation.split(" ").map((part): SumGamePart => {
-      if (part === "x") {
+      if (part === X) {
         return new SumGamePart("variable", part, null);
       }
 
@@ -112,6 +117,10 @@ export class SumGamePart {
 
   public getValue() {
     return this.value;
+  }
+
+  public isSymbol() {
+    return [PLUS, MINUS, X, EQUALS].includes(this.value || "");
   }
 
   public getIdentifier() {

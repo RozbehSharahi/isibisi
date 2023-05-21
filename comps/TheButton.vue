@@ -14,7 +14,7 @@ const color = ref(props.color || "green");
 .the-button {
   padding: 0.7em;
   border-radius: 1em;
-  background: #068100;
+  background: #151515;
   color: #fff;
   font-weight: bold;
 

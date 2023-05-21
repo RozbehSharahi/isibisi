@@ -11,6 +11,7 @@ import { timeout } from "~/utils/timeout";
 import TheButton from "~/comps/TheButton.vue";
 import TheRandomVideo from "~/comps/TheRandomVideo.vue";
 import { randomSample } from "~/utils/random";
+import TheSadFace from "~/comps/TheSadFace.vue";
 
 const createNewQuest = (): FillQuest => {
   const possibleQuests: (() => FillQuest)[] = [
@@ -87,19 +88,25 @@ onMounted(async () => {
           <the-headline v-if="!error">
             Ola isabella, faz as contas !
           </the-headline>
-          <the-headline v-else>Tenta de novo :___(</the-headline>
+          <template v-else>
+            <the-headline>Tenta de novo</the-headline>
+            <the-sad-face />
+          </template>
           <the-points :current-points="points" :max="15" @success="success" />
-          <the-grid :key="quest.getCalculation()">
+          <the-grid :key="quest.getCalculation()" :columns="14" class="quest">
             <div
               v-for="part in quest.getParts()"
               :key="part.getIdentifier()"
-              class="span-1"
+              class="span-2"
             >
               <the-card
                 v-if="part.getType() === 'string'"
-                class="text-center p-1em"
+                class="text-center h-4em"
               >
-                {{ part.getValue() }}
+                <span
+                  :class="part.isSymbol() ? 'bigger' : ''"
+                  v-html="part.getValue()"
+                />
               </the-card>
               <the-full-input
                 v-else
@@ -128,5 +135,14 @@ onMounted(async () => {
 <style lang="scss" scoped>
 .the-quest {
   height: 99vh;
+}
+
+.bigger {
+  font-weight: bold;
+  font-size: 1.4em;
+}
+
+.quest {
+  font-size: 1.5em;
 }
 </style>

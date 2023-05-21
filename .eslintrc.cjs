@@ -11,6 +11,7 @@ module.exports = {
   extends: ["@nuxtjs/eslint-config-typescript", "plugin:prettier/recommended"],
   plugins: [],
   rules: {
+    "vue/no-v-html": 0,
     "vue/no-multiple-template-root": 0,
     "no-useless-constructor": 0,
     "@typescript-eslint/no-useless-constructor": ["error"]
