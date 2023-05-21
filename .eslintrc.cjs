@@ -12,5 +12,7 @@ module.exports = {
   plugins: [],
   rules: {
     "vue/no-multiple-template-root": 0,
+    "no-useless-constructor": 0,
+    "@typescript-eslint/no-useless-constructor": ["error"]
   },
 };

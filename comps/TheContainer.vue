@@ -1,11 +1,18 @@
+<script lang="ts" setup>
+const props = defineProps<{
+  tag?: string;
+}>();
+
+const tag = props.tag || "div";
+</script>
 <template>
-  <div class="the-container">
+  <component :is="tag" class="the-container">
     <slot />
-  </div>
+  </component>
 </template>
 <style scoped lang="scss">
 .the-container {
-  width: 1200px;
+  width: 800px;
   margin: 0 auto;
 }
 </style>
