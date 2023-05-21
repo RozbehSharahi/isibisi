@@ -19,7 +19,7 @@ import { shortMovies } from "~/video/short-movies";
 const route = useRoute();
 const videos = computed(() => (route.query.hard ? shortMovies : songVideos));
 const videoTimeout = computed(() => (route.query.hard ? 60 * 10 : 60 * 3));
-const neededPoints = computed(() => (route.query.hard ? 20 : 15));
+const neededPoints = computed(() => (route.query.hard ? 20 : 12));
 const createNewQuest = (): FillQuest => {
   const possibleQuests: (() => FillQuest)[] = [
     () => FillQuest.createTensSumQuest(),
