@@ -7,8 +7,7 @@ const code = computed(() => props.code);
 </script>
 <template>
   <iframe
-    width="560"
-    height="315"
+    style="width: 1000px; aspect-ratio: 9/6"
     :src="`https://www.youtube.com/embed/${code}?autoplay=1`"
     title="YouTube video player"
     frameborder="0"

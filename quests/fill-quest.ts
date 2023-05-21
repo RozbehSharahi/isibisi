@@ -1,3 +1,5 @@
+// noinspection DuplicatedCode
+
 import { randomInteger, shuffle } from "~/utils/random";
 
 const MINUS = "&minus;";
@@ -39,7 +41,7 @@ export class FillQuest {
     return new FillQuest(calculation.join(" "), number1 + number2 + number3);
   }
 
-  public static create3PartSumQuestWithXInBetween(): FillQuest {
+  public static create3PartSumWithXInBetweenQuest(): FillQuest {
     const calculation: string[] = [];
 
     const number1 = randomInteger(1, 5);
@@ -59,11 +61,56 @@ export class FillQuest {
     return new FillQuest(calculation.join(" "), number3 - number2 - number1);
   }
 
-  static createSubtraction() {
+  public static createTensSumQuest(): FillQuest {
+    const calculation: string[] = [];
+
+    const number1 = randomInteger(1, 7) * 10;
+    const number2 = randomInteger(1, (100 - number1) / 10) * 10;
+
+    calculation.push(number1.toString());
+    calculation.push(PLUS);
+    calculation.push(number2.toString());
+    calculation.push(EQUALS);
+    calculation.push(X);
+
+    return new FillQuest(calculation.join(" "), number1 + number2);
+  }
+
+  public static createTensMinusQuest(): FillQuest {
+    const calculation: string[] = [];
+
+    const number1 = randomInteger(2, 10) * 10;
+    const number2 = randomInteger(1, number1 / 10) * 10;
+
+    calculation.push(number1.toString());
+    calculation.push(MINUS);
+    calculation.push(number2.toString());
+    calculation.push(EQUALS);
+    calculation.push(X);
+
+    return new FillQuest(calculation.join(" "), number1 - number2);
+  }
+
+  static createMinusQuest() {
     const calculation: string[] = [];
 
     const number1 = randomInteger(8, 15);
     const number2 = randomInteger(1, 8);
+
+    calculation.push(number1.toString());
+    calculation.push(MINUS);
+    calculation.push(number2.toString());
+    calculation.push(EQUALS);
+    calculation.push(X);
+
+    return new FillQuest(calculation.join(" "), number1 - number2);
+  }
+
+  static createBigNumberMinusQuest() {
+    const calculation: string[] = [];
+
+    const number1 = randomInteger(24, 99);
+    const number2 = randomInteger(1, 9);
 
     calculation.push(number1.toString());
     calculation.push(MINUS);

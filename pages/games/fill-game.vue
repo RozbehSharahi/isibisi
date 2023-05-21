@@ -15,10 +15,13 @@ import TheSadFace from "~/comps/TheSadFace.vue";
 
 const createNewQuest = (): FillQuest => {
   const possibleQuests: (() => FillQuest)[] = [
-    () => FillQuest.create3PartSumQuestWithXInBetween(),
+    () => FillQuest.createTensSumQuest(),
+    () => FillQuest.createTensMinusQuest(),
+    () => FillQuest.create3PartSumWithXInBetweenQuest(),
     () => FillQuest.createSumQuest(),
     () => FillQuest.create3PartSumQuest(),
-    () => FillQuest.createSubtraction(),
+    () => FillQuest.createMinusQuest(),
+    () => FillQuest.createBigNumberMinusQuest(),
   ];
   return randomSample(possibleQuests)();
 };
@@ -125,7 +128,7 @@ onMounted(async () => {
       <the-container v-else tag="div" class="video">
         <the-grid>
           <the-headline>Bravo Isabella</the-headline>
-          <the-random-video />
+          <the-random-video :stop-after-x-seconds="60 * 3" />
           <the-button @click="restart">Outra Vez</the-button>
         </the-grid>
       </the-container>

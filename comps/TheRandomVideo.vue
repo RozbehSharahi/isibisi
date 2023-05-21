@@ -6,6 +6,18 @@ type VideoType = {
   code: string;
 };
 
+const stopped = ref(false);
+
+const props = defineProps<{
+  stopAfterXSeconds?: number;
+}>();
+
+onMounted(() => {
+  if (props.stopAfterXSeconds) {
+    setTimeout(() => (stopped.value = true), props.stopAfterXSeconds * 1000);
+  }
+});
+
 const videos = ref<VideoType[]>([
   { code: "Hrph2EW9VjY" },
   { code: "pVHKp6ffURY" },
@@ -27,5 +39,8 @@ const videos = ref<VideoType[]>([
 const video = computed((): VideoType => randomSample(videos.value));
 </script>
 <template>
-  <the-video :code="video.code" />
+  <div v-if="!stopped">
+    <the-video :code="video.code" />
+  </div>
+  <div v-else>Acabou o tempo para ver o video</div>
 </template>
