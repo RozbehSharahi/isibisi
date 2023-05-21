@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { FillQuest } from "~/games/fill-quest";
+import { FillQuest } from "~/quests/fill-quest";
 import TheHeadline from "~/comps/TheHeadline.vue";
 import TheQuest from "~/comps/TheQuest.vue";
 import TheGrid from "~/comps/TheGrid.vue";
@@ -10,8 +10,17 @@ import ThePoints from "~/comps/ThePoints.vue";
 import { timeout } from "~/utils/timeout";
 import TheButton from "~/comps/TheButton.vue";
 import TheRandomVideo from "~/comps/TheRandomVideo.vue";
+import { randomSample } from "~/utils/random";
 
-const createNewQuest = () => FillQuest.create3PartSumQuestWithXInBetween();
+const createNewQuest = (): FillQuest => {
+  const possibleQuests: (() => FillQuest)[] = [
+    () => FillQuest.create3PartSumQuestWithXInBetween(),
+    () => FillQuest.createSumQuest(),
+    () => FillQuest.create3PartSumQuest(),
+    () => FillQuest.createSubtraction(),
+  ];
+  return randomSample(possibleQuests)();
+};
 
 const quest = ref(createNewQuest());
 const points = ref(0);
@@ -19,7 +28,7 @@ const showVideo = ref(false);
 
 const input = ref<string | null>(null);
 
-const getInput = () => input.value ?? "";
+const getInput = () => input.value || "";
 
 const getInputElement = (): HTMLInputElement => {
   const element = document.getElementsByClassName("input")[0];
@@ -68,7 +77,7 @@ onMounted(async () => {
           <the-headline>Ola isabella, faz as contas !</the-headline>
           <the-points
             :current-points="points"
-            :max="10"
+            :max="15"
             @success="success"
             @change="newGame"
           />

@@ -1,4 +1,4 @@
-import { randomInteger } from "~/utils/random";
+import { randomInteger, shuffle } from "~/utils/random";
 
 export class FillQuest {
   public static createSumQuest(): FillQuest {
@@ -41,15 +41,32 @@ export class FillQuest {
     const number2 = randomInteger(1, 5);
     const number3 = randomInteger(10, 13);
 
-    calculation.push(number1.toString());
+    const leftSide = shuffle([number1.toString(), number2.toString(), "x"]);
+
+    calculation.push(leftSide[0]);
     calculation.push("+");
-    calculation.push("x");
+    calculation.push(leftSide[1]);
     calculation.push("+");
-    calculation.push(number2.toString());
+    calculation.push(leftSide[2]);
     calculation.push("=");
     calculation.push(number3.toString());
 
     return new FillQuest(calculation.join(" "), number3 - number2 - number1);
+  }
+
+  static createSubtraction() {
+    const calculation: string[] = [];
+
+    const number1 = randomInteger(8, 15);
+    const number2 = randomInteger(1, 8);
+
+    calculation.push(number1.toString());
+    calculation.push("-");
+    calculation.push(number2.toString());
+    calculation.push("=");
+    calculation.push("x");
+
+    return new FillQuest(calculation.join(" "), number1 - number2);
   }
 
   public constructor(private calculation: string, private solution: number) {}
