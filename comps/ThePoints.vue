@@ -13,7 +13,7 @@ const max = ref(props.max || 15);
 const minToAchieve = computed(() => props.minToAchieve || max.value);
 const currentPoints = computed(() => props.currentPoints);
 const points = computed(() => Array(max.value).fill(true));
-const columns = computed(() => Math.max(max.value, 12));
+const columns = computed(() => Math.min(max.value, 15));
 
 watch(currentPoints, () => {
   emit(currentPoints.value === minToAchieve.value ? "success" : "fail");

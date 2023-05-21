@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useRoute } from "vue-router";
 import { FillQuest } from "~/quests/fill-quest";
 import TheHeadline from "~/comps/TheHeadline.vue";
 import TheQuest from "~/comps/TheQuest.vue";
@@ -12,7 +13,13 @@ import TheButton from "~/comps/TheButton.vue";
 import TheRandomVideo from "~/comps/TheRandomVideo.vue";
 import { randomSample } from "~/utils/random";
 import TheSadFace from "~/comps/TheSadFace.vue";
+import { songVideos } from "~/video/song-videos";
+import { shortMovies } from "~/video/short-movies";
 
+const route = useRoute();
+const videos = computed(() => (route.query.hard ? shortMovies : songVideos));
+const videoTimeout = computed(() => (route.query.hard ? 60 * 10 : 60 * 3));
+const neededPoints = computed(() => (route.query.hard ? 20 : 15));
 const createNewQuest = (): FillQuest => {
   const possibleQuests: (() => FillQuest)[] = [
     () => FillQuest.createTensSumQuest(),
@@ -95,7 +102,11 @@ onMounted(async () => {
             <the-headline>Tenta de novo</the-headline>
             <the-sad-face />
           </template>
-          <the-points :current-points="points" :max="15" @success="success" />
+          <the-points
+            :current-points="points"
+            :max="neededPoints"
+            @success="success"
+          />
           <the-grid :key="quest.getCalculation()" :columns="14" class="quest">
             <div
               v-for="part in quest.getParts()"
@@ -128,7 +139,10 @@ onMounted(async () => {
       <the-container v-else tag="div" class="video">
         <the-grid>
           <the-headline>Bravo Isabella</the-headline>
-          <the-random-video :stop-after-x-seconds="60 * 3" />
+          <the-random-video
+            :videos="videos"
+            :stop-after-x-seconds="videoTimeout"
+          />
           <the-button @click="restart">Outra Vez</the-button>
         </the-grid>
       </the-container>

@@ -6,8 +6,22 @@ import TheBigButton from "~/comps/TheBigButton.vue";
 <template>
   <the-grid>
     <the-headline>Escolhe um jogo</the-headline>
-    <the-big-button class="span-3" @click="navigateTo('/games/fill-game')">
-      Mistura de tarefas
+    <the-big-button
+      class="span-3"
+      @click="navigateTo({ path: '/games/fill-game' })"
+    >
+      Facil
+    </the-big-button>
+    <the-big-button
+      class="span-3"
+      @click="
+        navigateTo({
+          path: '/games/fill-game',
+          query: { hard: 1 },
+        })
+      "
+    >
+      Dificil
     </the-big-button>
   </the-grid>
 </template>
