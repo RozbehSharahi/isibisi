@@ -25,6 +25,7 @@ const createNewQuest = (): FillQuest => {
 const quest = ref(createNewQuest());
 const points = ref(0);
 const showVideo = ref(false);
+const error = ref(false);
 
 const input = ref<string | null>(null);
 
@@ -40,15 +41,22 @@ const getInputElement = (): HTMLInputElement => {
   return element;
 };
 
-const verify = () => {
-  points.value = quest.value.verify(getInput()) ? points.value + 1 : 0;
-};
-
-const newGame = async () => {
-  input.value = null;
-  quest.value = createNewQuest();
+const focusInput = async () => {
   await timeout(1);
   getInputElement().focus();
+};
+
+const verify = () => {
+  if (quest.value.verify(getInput())) {
+    input.value = null;
+    points.value++;
+    quest.value = createNewQuest();
+    focusInput();
+    return;
+  }
+
+  error.value = true;
+  points.value = 0;
 };
 
 const success = () => {
@@ -59,7 +67,9 @@ const restart = () => {
   input.value = null;
   showVideo.value = false;
   points.value = 0;
-  newGame();
+  quest.value = createNewQuest();
+  error.value = false;
+  focusInput();
 };
 
 onMounted(async () => {
@@ -74,13 +84,11 @@ onMounted(async () => {
     <the-quest>
       <the-container v-if="!showVideo" :tag="'form'" @submit.prevent="verify">
         <the-grid gap="2em">
-          <the-headline>Ola isabella, faz as contas !</the-headline>
-          <the-points
-            :current-points="points"
-            :max="15"
-            @success="success"
-            @change="newGame"
-          />
+          <the-headline v-if="!error">
+            Ola isabella, faz as contas !
+          </the-headline>
+          <the-headline v-else>Tenta de novo :___(</the-headline>
+          <the-points :current-points="points" :max="15" @success="success" />
           <the-grid :key="quest.getCalculation()">
             <div
               v-for="part in quest.getParts()"
@@ -97,9 +105,14 @@ onMounted(async () => {
                 v-else
                 v-model="input"
                 class="text-center input"
+                :error="error"
+                :disabled="error"
               />
             </div>
           </the-grid>
+          <the-button v-if="error" class="span-6" @click="restart">
+            De novo
+          </the-button>
         </the-grid>
       </the-container>
       <the-container v-else tag="div" class="video">

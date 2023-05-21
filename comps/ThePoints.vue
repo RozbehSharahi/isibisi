@@ -18,12 +18,6 @@ const columns = computed(() => Math.max(max.value, 12));
 watch(currentPoints, () => {
   emit(currentPoints.value === minToAchieve.value ? "success" : "fail");
 });
-
-watch(currentPoints, () => {
-  if (currentPoints.value !== minToAchieve.value) {
-    emit("change");
-  }
-});
 </script>
 <template>
   <div class="the-points">
