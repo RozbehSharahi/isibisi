@@ -7,26 +7,27 @@ const props = defineProps<{
   minToAchieve?: number;
 }>();
 
-const emit = defineEmits(["success"]);
+const emit = defineEmits(["success", "fail", "change"]);
 
 const max = ref(props.max || 15);
-const minToAchieve = computed(() => props.minToAchieve || 15);
+const minToAchieve = computed(() => props.minToAchieve || max.value);
 const currentPoints = computed(() => props.currentPoints);
 const points = computed(() => Array(max.value).fill(true));
+const columns = computed(() => Math.max(max.value, 12));
 
-watch(
-  currentPoints,
-  () => {
-    if (currentPoints.value === minToAchieve.value) {
-      emit("success");
-    }
-  },
-  { immediate: true }
-);
+watch(currentPoints, () => {
+  emit(currentPoints.value === minToAchieve.value ? "success" : "fail");
+});
+
+watch(currentPoints, () => {
+  if (currentPoints.value !== minToAchieve.value) {
+    emit("change");
+  }
+});
 </script>
 <template>
   <div class="the-points">
-    <the-grid :columns="max">
+    <the-grid :columns="columns">
       <div
         v-for="(point, index) in points"
         :key="index"

@@ -16,6 +16,7 @@ const color = ref(props.color || "green");
   border-radius: 1em;
   background: #068100;
   color: #fff;
+  font-weight: bold;
 
   &.color-red {
     background: crimson;
