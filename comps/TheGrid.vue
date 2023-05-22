@@ -39,6 +39,10 @@ const styleVars = ref({
     grid-column: span 3;
   }
 
+  :deep(> .span-4) {
+    grid-column: span 4;
+  }
+
   :deep(> .span-6) {
     grid-column: span 6;
   }

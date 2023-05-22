@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { FillQuest } from "~/quests/fill-quest";
 import TheHeadline from "~/comps/TheHeadline.vue";
 import TheQuest from "~/comps/TheQuest.vue";
@@ -10,14 +10,14 @@ import TheFullInput from "~/comps/TheFullInput.vue";
 import ThePoints from "~/comps/ThePoints.vue";
 import { timeout } from "~/utils/timeout";
 import TheButton from "~/comps/TheButton.vue";
-import TheRandomVideo from "~/comps/TheRandomVideo.vue";
 import { randomSample } from "~/utils/random";
 import TheSadFace from "~/comps/TheSadFace.vue";
-import { songVideos } from "~/video/song-videos";
-import { shortMovies } from "~/video/short-movies";
 
 const route = useRoute();
-const videos = computed(() => (route.query.hard ? shortMovies : songVideos));
+const router = useRouter();
+const videoCollection = computed(() =>
+  route.query.hard ? "short-videos" : "song-videos"
+);
 const videoTimeout = computed(() => (route.query.hard ? 60 * 10 : 60 * 3));
 const neededPoints = computed(() => (route.query.hard ? 20 : 12));
 const createNewQuest = (): FillQuest => {
@@ -35,7 +35,6 @@ const createNewQuest = (): FillQuest => {
 
 const quest = ref(createNewQuest());
 const points = ref(0);
-const showVideo = ref(false);
 const error = ref(false);
 
 const input = ref<string | null>(null);
@@ -71,12 +70,17 @@ const verify = () => {
 };
 
 const success = () => {
-  showVideo.value = true;
+  router.push({
+    path: "/video/select",
+    query: {
+      timeout: videoTimeout.value,
+      collection: videoCollection.value,
+    },
+  });
 };
 
 const restart = () => {
   input.value = null;
-  showVideo.value = false;
   points.value = 0;
   quest.value = createNewQuest();
   error.value = false;
@@ -93,7 +97,7 @@ onMounted(async () => {
 <template>
   <client-only>
     <the-quest>
-      <the-container v-if="!showVideo" :tag="'form'" @submit.prevent="verify">
+      <the-container :tag="'form'" @submit.prevent="verify">
         <the-grid gap="2em">
           <the-headline v-if="!error">
             Ola isabella, faz as contas !
@@ -134,16 +138,6 @@ onMounted(async () => {
           <the-button v-if="error" class="span-6" @click="restart">
             De novo
           </the-button>
-        </the-grid>
-      </the-container>
-      <the-container v-else tag="div" class="video">
-        <the-grid>
-          <the-headline>Bravo Isabella</the-headline>
-          <the-random-video
-            :videos="videos"
-            :stop-after-x-seconds="videoTimeout"
-          />
-          <the-button @click="restart">Outra Vez</the-button>
         </the-grid>
       </the-container>
     </the-quest>
