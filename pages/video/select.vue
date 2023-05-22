@@ -1,24 +1,16 @@
 <script lang="ts" setup>
-import { shortMovies } from "~/video/short-movies";
-import { isVideoTypeArray, VideoType } from "~/video/video-type";
+import { isVideoTypeArray } from "~/type/video-type";
 import TheVideo from "~/comps/TheVideo.vue";
 import TheGrid from "~/comps/TheGrid.vue";
 import { useRoute } from "~/composables/use-route";
-import { songVideos } from "~/video/song-videos";
+import { videoCollections } from "~/video-collections";
 
 const { getIntQueryParameter, getStringQueryParameter } = useRoute();
 
 const timeout = computed(() => getIntQueryParameter("timeout"));
-
 const collectionName = computed(() => getStringQueryParameter("collection"));
-
 const videos = computed(() => {
-  const collectionMap: Record<string, VideoType[]> = {
-    "short-movies": shortMovies,
-    "song-videos": songVideos,
-  };
-
-  const collection = collectionMap[collectionName.value] || null;
+  const collection = videoCollections[collectionName.value] || null;
 
   if (!isVideoTypeArray(collection)) {
     throw new Error("Collection not found");
