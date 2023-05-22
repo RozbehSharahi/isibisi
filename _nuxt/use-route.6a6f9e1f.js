@@ -1,1 +1,0 @@
-import{C as o}from"./entry.59c56ce8.js";function s(){const t=o();return{getIntQueryParameter:e=>{const r=t.query[e];if(typeof r!="string"||isNaN(parseInt(r)))throw new TypeError(`Could not get parameter: ${e}`);return parseInt(r)},getStringQueryParameter:e=>{const r=t.query[e];if(typeof r!="string")throw new TypeError(`Could not get parameter: ${e}`);return r}}}export{s as u};
