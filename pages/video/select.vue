@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { isVideoTypeArray } from "~/type/video-type";
-import TheVideo from "~/comps/TheVideo.vue";
 import TheGrid from "~/comps/TheGrid.vue";
 import { useRoute } from "~/composables/use-route";
 import { videoCollections } from "~/video-collections";
+import TheVideoTeaser from "~/comps/TheVideoTeaser.vue";
 
 const { getIntQueryParameter, getStringQueryParameter } = useRoute();
 
@@ -34,7 +34,7 @@ const videos = computed(() => {
       class="video-thumbnail span-6"
     >
       <div class="un-clickable">
-        <the-video :code="video.code" :autoplay="false" />
+        <the-video-teaser :code="video.code" />
       </div>
     </nuxt-link>
   </the-grid>

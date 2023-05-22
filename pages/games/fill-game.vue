@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRoute, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import { FillQuest } from "~/quests/fill-quest";
 import TheHeadline from "~/comps/TheHeadline.vue";
 import TheQuest from "~/comps/TheQuest.vue";
@@ -12,14 +12,34 @@ import { timeout } from "~/utils/timeout";
 import TheButton from "~/comps/TheButton.vue";
 import { randomSample } from "~/utils/random";
 import TheSadFace from "~/comps/TheSadFace.vue";
+import { useRoute } from "~/composables/use-route";
 
-const route = useRoute();
+type ConfigType = {
+  collection: string;
+  timeout: number;
+  neededPoints: number;
+};
+
+const configs: Record<string, ConfigType> = {
+  hard: {
+    timeout: 60 * 10,
+    neededPoints: 20,
+    collection: "short-movies",
+  },
+  default: {
+    timeout: 60 * 3,
+    neededPoints: 12,
+    collection: "song-videos",
+  },
+};
+
+const { getStringQueryParameter } = useRoute();
 const router = useRouter();
-const videoCollection = computed(() =>
-  route.query.hard ? "short-videos" : "song-videos"
-);
-const videoTimeout = computed(() => (route.query.hard ? 60 * 10 : 60 * 3));
-const neededPoints = computed(() => (route.query.hard ? 20 : 12));
+
+const config = computed((): ConfigType => {
+  return configs[getStringQueryParameter("level")] || configs.default;
+});
+
 const createNewQuest = (): FillQuest => {
   const possibleQuests: (() => FillQuest)[] = [
     () => FillQuest.createTensSumQuest(),
@@ -73,8 +93,8 @@ const success = () => {
   router.push({
     path: "/video/select",
     query: {
-      timeout: videoTimeout.value,
-      collection: videoCollection.value,
+      timeout: config.value.timeout,
+      collection: config.value.collection,
     },
   });
 };
@@ -108,7 +128,7 @@ onMounted(async () => {
           </template>
           <the-points
             :current-points="points"
-            :max="neededPoints"
+            :max="config.neededPoints"
             @success="success"
           />
           <the-grid :key="quest.getCalculation()" :columns="14" class="quest">

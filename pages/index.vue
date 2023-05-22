@@ -8,17 +8,16 @@ import TheBigButton from "~/comps/TheBigButton.vue";
     <the-headline>Escolhe um jogo</the-headline>
     <the-big-button
       class="span-3"
-      @click="navigateTo({ path: '/games/fill-game' })"
+      @click="
+        navigateTo({ path: '/games/fill-game', query: { level: 'easy' } })
+      "
     >
       Facil
     </the-big-button>
     <the-big-button
       class="span-3"
       @click="
-        navigateTo({
-          path: '/games/fill-game',
-          query: { hard: 1 },
-        })
+        navigateTo({ path: '/games/fill-game', query: { level: 'hard' } })
       "
     >
       Dificil
