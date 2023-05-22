@@ -17,10 +17,10 @@ import TheBigButton from "~/comps/TheBigButton.vue";
     <the-big-button
       class="span-3"
       @click="
-        navigateTo({ path: '/games/fill-game', query: { level: 'hard' } })
+        navigateTo({ path: '/games/fill-game', query: { level: 'media' } })
       "
     >
-      Dificil
+      Media
     </the-big-button>
   </the-grid>
 </template>

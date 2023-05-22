@@ -10,7 +10,7 @@ const { getIntQueryParameter, getStringQueryParameter } = useRoute();
 const timeout = computed(() => getIntQueryParameter("timeout"));
 const collectionName = computed(() => getStringQueryParameter("collection"));
 const videos = computed(() => {
-  const collection = videoCollections[collectionName.value] || null;
+  const collection = videoCollections.get(collectionName.value);
 
   if (!isVideoTypeArray(collection)) {
     throw new Error("Collection not found");

@@ -13,6 +13,7 @@ import TheButton from "~/comps/TheButton.vue";
 import { randomSample } from "~/utils/random";
 import TheSadFace from "~/comps/TheSadFace.vue";
 import { useRoute } from "~/composables/use-route";
+import { MEDIUM_VIDEOS, SHORT_VIDEOS } from "~/video-collections";
 
 type ConfigType = {
   collection: string;
@@ -21,15 +22,15 @@ type ConfigType = {
 };
 
 const configs: Record<string, ConfigType> = {
-  hard: {
-    timeout: 60 * 10,
-    neededPoints: 20,
-    collection: "short-movies",
-  },
   default: {
     timeout: 60 * 3,
     neededPoints: 12,
-    collection: "song-videos",
+    collection: SHORT_VIDEOS,
+  },
+  media: {
+    timeout: 60 * 9,
+    neededPoints: 16,
+    collection: MEDIUM_VIDEOS,
   },
 };
 

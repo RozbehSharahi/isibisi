@@ -1,6 +1,6 @@
 import { VideoType } from "~/type/video-type";
 
-export const songVideos: VideoType[] = [
+export const shortVideos: VideoType[] = [
   { code: "Hrph2EW9VjY" },
   { code: "pVHKp6ffURY" },
   { code: "cvvd-9azD1M" },
