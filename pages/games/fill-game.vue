@@ -8,11 +8,11 @@ import TheContainer from "~/comps/TheContainer.vue";
 import TheCard from "~/comps/TheCard.vue";
 import TheFullInput from "~/comps/TheFullInput.vue";
 import ThePoints from "~/comps/ThePoints.vue";
-import { timeout } from "~/utils/timeout";
 import TheButton from "~/comps/TheButton.vue";
 import { randomSample } from "~/utils/random";
 import TheSadFace from "~/comps/TheSadFace.vue";
 import { useRoute } from "~/composables/use-route";
+import { useDom } from "~/composables/use-dom";
 import { MEDIUM_VIDEOS, SHORT_VIDEOS } from "~/video-collections";
 
 type ConfigType = {
@@ -34,6 +34,7 @@ const configs: Record<string, ConfigType> = {
   },
 };
 
+const { focusInputElement } = useDom();
 const { getStringQueryParameter } = useRoute();
 const router = useRouter();
 
@@ -54,43 +55,35 @@ const createNewQuest = (): FillQuest => {
   return randomSample(possibleQuests)();
 };
 
+const fillGameInputSelector = ".fill-game-input";
 const quest = ref(createNewQuest());
 const points = ref(0);
 const error = ref(false);
-
 const input = ref<string | null>(null);
+const inputValue = computed(() => input.value || null);
 
-const getInput = () => input.value || "";
-
-const getInputElement = (): HTMLInputElement => {
-  const element = document.getElementsByClassName("input")[0];
-
-  if (!(element instanceof HTMLInputElement)) {
-    throw new TypeError("Could not find input");
-  }
-
-  return element;
-};
-
-const focusInput = async () => {
-  await timeout(1);
-  getInputElement().focus();
-};
+const focus = () => focusInputElement(fillGameInputSelector);
 
 const verify = () => {
-  if (quest.value.verify(getInput())) {
-    input.value = null;
-    points.value++;
-    quest.value = createNewQuest();
-    focusInput();
-    return;
-  }
-
-  error.value = true;
-  points.value = 0;
+  return quest.value.verify(inputValue.value) ? success() : fail();
 };
 
 const success = () => {
+  points.value++;
+
+  if (points.value >= config.value.neededPoints) return won();
+
+  input.value = null;
+  quest.value = createNewQuest();
+  focus();
+};
+
+const fail = () => {
+  error.value = true;
+  points.value = Math.max(0, points.value - 3);
+};
+
+const won = () => {
   router.push({
     path: "/video/select",
     query: {
@@ -101,19 +94,13 @@ const success = () => {
 };
 
 const restart = () => {
-  input.value = null;
-  points.value = 0;
   quest.value = createNewQuest();
+  input.value = null;
   error.value = false;
-  focusInput();
+  focus();
 };
 
-onMounted(async () => {
-  await timeout(1);
-  if (process.client) {
-    getInputElement().focus();
-  }
-});
+onMounted(() => focus());
 </script>
 <template>
   <client-only>
@@ -124,14 +111,10 @@ onMounted(async () => {
             Ola isabella, faz as contas !
           </the-headline>
           <template v-else>
-            <the-headline>Tenta de novo</the-headline>
+            <the-headline>Ai Ai Ai Isabella</the-headline>
             <the-sad-face />
           </template>
-          <the-points
-            :current-points="points"
-            :max="config.neededPoints"
-            @success="success"
-          />
+          <the-points :current-points="points" :max="config.neededPoints" />
           <the-grid :key="quest.getCalculation()" :columns="14" class="quest">
             <div
               v-for="part in quest.getParts()"
@@ -150,14 +133,14 @@ onMounted(async () => {
               <the-full-input
                 v-else
                 v-model="input"
-                class="text-center input"
+                class="text-center fill-game-input"
                 :error="error"
                 :disabled="error"
               />
             </div>
           </the-grid>
           <the-button v-if="error" class="span-6" @click="restart">
-            De novo
+            Continuar
           </the-button>
         </the-grid>
       </the-container>

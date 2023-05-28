@@ -7,17 +7,10 @@ const props = defineProps<{
   minToAchieve?: number;
 }>();
 
-const emit = defineEmits(["success", "fail", "change"]);
-
 const max = ref(props.max || 15);
-const minToAchieve = computed(() => props.minToAchieve || max.value);
 const currentPoints = computed(() => props.currentPoints);
 const points = computed(() => Array(max.value).fill(true));
 const columns = computed(() => 12);
-
-watch(currentPoints, () => {
-  emit(currentPoints.value === minToAchieve.value ? "success" : "fail");
-});
 </script>
 <template>
   <div class="the-points">

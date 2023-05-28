@@ -127,10 +127,6 @@ export class FillQuest {
     return this.calculation;
   }
 
-  public getSolution(): number {
-    return this.solution;
-  }
-
   public getParts(): SumGamePart[] {
     return this.calculation.split(" ").map((part): SumGamePart => {
       if (part === X) {
@@ -141,7 +137,8 @@ export class FillQuest {
     });
   }
 
-  public verify(input: string | number) {
+  public verify(input: string | number | null) {
+    if (!input) return false;
     const inputNumber = typeof input === "number" ? input : parseInt(input);
     return inputNumber === this.solution;
   }
@@ -156,10 +153,6 @@ export class SumGamePart {
 
   public getType() {
     return this.type;
-  }
-
-  public getName() {
-    return this.name;
   }
 
   public getValue() {
