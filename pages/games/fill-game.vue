@@ -115,16 +115,36 @@ onMounted(() => focus());
             <the-sad-face />
           </template>
           <the-points :current-points="points" :max="config.neededPoints" />
-          <the-grid :key="quest.getCalculation()" :columns="14" class="quest">
+          <the-grid
+            v-if="error"
+            :key="quest.getCalculation()"
+            :columns="14"
+            class="quest"
+          >
             <div
               v-for="part in quest.getParts()"
               :key="part.getIdentifier()"
               class="span-2"
             >
               <the-card
-                v-if="part.getType() === 'string'"
                 class="text-center h-4em"
+                :class="part.isFixed() ? 'opacity-0' : undefined"
+                :color="part.isVariable() ? 'green' : undefined"
               >
+                <span
+                  :class="part.isSymbol() ? 'bigger' : ''"
+                  v-html="part.getValue() || quest.getSolution()"
+                />
+              </the-card>
+            </div>
+          </the-grid>
+          <the-grid :key="quest.getCalculation()" :columns="14" class="quest">
+            <div
+              v-for="part in quest.getParts()"
+              :key="part.getIdentifier()"
+              class="span-2"
+            >
+              <the-card v-if="part.isFixed()" class="text-center h-4em">
                 <span
                   :class="part.isSymbol() ? 'bigger' : ''"
                   v-html="part.getValue()"

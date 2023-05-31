@@ -127,6 +127,10 @@ export class FillQuest {
     return this.calculation;
   }
 
+  public getSolution(): number {
+    return this.solution;
+  }
+
   public getParts(): SumGamePart[] {
     return this.calculation.split(" ").map((part): SumGamePart => {
       if (part === X) {
@@ -153,6 +157,14 @@ export class SumGamePart {
 
   public getType() {
     return this.type;
+  }
+
+  public isFixed(): boolean {
+    return this.value !== null;
+  }
+
+  public isVariable(): boolean {
+    return !this.isFixed();
   }
 
   public getValue() {
