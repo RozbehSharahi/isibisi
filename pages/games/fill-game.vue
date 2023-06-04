@@ -58,7 +58,7 @@ const configs: Record<string, ConfigType> = {
     },
   },
   tens: {
-    timeout: 60 * 10,
+    timeout: 60 * 11,
     neededPoints: 12,
     collection: NEW_VIDEOS,
     createQuest: () => {
