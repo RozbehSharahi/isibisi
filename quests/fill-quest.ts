@@ -1,6 +1,6 @@
 // noinspection DuplicatedCode
 
-import { randomInteger, shuffle } from "~/utils/random";
+import { randomInteger, randomSample, shuffle } from "~/utils/random";
 
 const MINUS = "&minus;";
 const PLUS = "+";
@@ -74,6 +74,40 @@ export class FillQuest {
     calculation.push(X);
 
     return new FillQuest(calculation.join(" "), number1 + number2);
+  }
+
+  public static createTensPlusRandomSumQuest(): FillQuest {
+    const calculation: string[] = [];
+
+    const operator = randomSample([PLUS, MINUS]);
+
+    if (operator === PLUS) {
+      const number1 = randomInteger(1, 30);
+      const number2 = randomInteger(1, 5) * 10;
+      const solution = number1 + number2;
+
+      const leftSide = shuffle([number1.toString(), number2.toString()]);
+
+      calculation.push(leftSide[0]);
+      calculation.push(PLUS);
+      calculation.push(leftSide[1]);
+      calculation.push(EQUALS);
+      calculation.push(X);
+
+      return new FillQuest(calculation.join(" "), solution);
+    } else {
+      const number1 = randomInteger(60, 100);
+      const number2 = randomInteger(1, 3) * 10;
+      const solution = number1 - number2;
+
+      calculation.push(number1.toString());
+      calculation.push(MINUS);
+      calculation.push(number2.toString());
+      calculation.push(EQUALS);
+      calculation.push(X);
+
+      return new FillQuest(calculation.join(" "), solution);
+    }
   }
 
   public static createTensMinusQuest(): FillQuest {

@@ -13,12 +13,13 @@ import { randomSample } from "~/utils/random";
 import TheSadFace from "~/comps/TheSadFace.vue";
 import { useRoute } from "~/composables/use-route";
 import { useDom } from "~/composables/use-dom";
-import { MEDIUM_VIDEOS, SHORT_VIDEOS } from "~/video-collections";
+import { MEDIUM_VIDEOS, NEW_VIDEOS, SHORT_VIDEOS } from "~/video-collections";
 
 type ConfigType = {
   collection: string;
   timeout: number;
   neededPoints: number;
+  createQuest: () => FillQuest;
 };
 
 const configs: Record<string, ConfigType> = {
@@ -26,11 +27,46 @@ const configs: Record<string, ConfigType> = {
     timeout: 60 * 3,
     neededPoints: 12,
     collection: SHORT_VIDEOS,
+    createQuest: () => {
+      const possibleQuests: (() => FillQuest)[] = [
+        () => FillQuest.createTensSumQuest(),
+        () => FillQuest.createTensMinusQuest(),
+        () => FillQuest.create3PartSumWithXInBetweenQuest(),
+        () => FillQuest.createSumQuest(),
+        () => FillQuest.create3PartSumQuest(),
+        () => FillQuest.createMinusQuest(),
+        () => FillQuest.createBigNumberMinusQuest(),
+      ];
+      return randomSample(possibleQuests)();
+    },
   },
   media: {
     timeout: 60 * 9,
     neededPoints: 16,
     collection: MEDIUM_VIDEOS,
+    createQuest: () => {
+      const possibleQuests: (() => FillQuest)[] = [
+        () => FillQuest.createTensSumQuest(),
+        () => FillQuest.createTensMinusQuest(),
+        () => FillQuest.create3PartSumWithXInBetweenQuest(),
+        () => FillQuest.createSumQuest(),
+        () => FillQuest.create3PartSumQuest(),
+        () => FillQuest.createMinusQuest(),
+        () => FillQuest.createBigNumberMinusQuest(),
+      ];
+      return randomSample(possibleQuests)();
+    },
+  },
+  tens: {
+    timeout: 60 * 10,
+    neededPoints: 12,
+    collection: NEW_VIDEOS,
+    createQuest: () => {
+      const possibleQuests: (() => FillQuest)[] = [
+        () => FillQuest.createTensPlusRandomSumQuest(),
+      ];
+      return randomSample(possibleQuests)();
+    },
   },
 };
 
@@ -42,21 +78,8 @@ const config = computed((): ConfigType => {
   return configs[getStringQueryParameter("level")] || configs.default;
 });
 
-const createNewQuest = (): FillQuest => {
-  const possibleQuests: (() => FillQuest)[] = [
-    () => FillQuest.createTensSumQuest(),
-    () => FillQuest.createTensMinusQuest(),
-    () => FillQuest.create3PartSumWithXInBetweenQuest(),
-    () => FillQuest.createSumQuest(),
-    () => FillQuest.create3PartSumQuest(),
-    () => FillQuest.createMinusQuest(),
-    () => FillQuest.createBigNumberMinusQuest(),
-  ];
-  return randomSample(possibleQuests)();
-};
-
 const fillGameInputSelector = ".fill-game-input";
-const quest = ref(createNewQuest());
+const quest = ref(config.value.createQuest());
 const points = ref(0);
 const error = ref(false);
 const input = ref<string | null>(null);
@@ -74,7 +97,7 @@ const success = () => {
   if (points.value >= config.value.neededPoints) return won();
 
   input.value = null;
-  quest.value = createNewQuest();
+  quest.value = config.value.createQuest();
   focus();
 };
 
@@ -94,7 +117,7 @@ const won = () => {
 };
 
 const restart = () => {
-  quest.value = createNewQuest();
+  quest.value = config.value.createQuest();
   input.value = null;
   error.value = false;
   focus();
