@@ -6,4 +6,8 @@ export const newVideos: VideoType[] = [
   { code: "Fv8WzscKKBU" },
   { code: "ha5vhjHN7hE" },
   { code: "uugiHIu99FM" },
+  { code: "GTOLVPZyiwE" },
+  { code: "JR4V2KUVHxI" },
+  { code: "ZIXExdjvNv8" },
+  { code: "AmCZTWmMn9c" },
 ];
