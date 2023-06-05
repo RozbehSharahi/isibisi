@@ -1,1 +1,0 @@
-import{a as n,o as s,f as t,i as _}from"./entry.b40ca587.js";const o={},a={class:"the-headline"};function c(e,d){return s(),t("div",a,[_(e.$slots,"default",{},void 0,!0)])}const l=n(o,[["render",c],["__scopeId","data-v-6161e665"]]);export{l as T};
