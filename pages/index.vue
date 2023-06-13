@@ -9,26 +9,18 @@ import TheBigButton from "~/comps/TheBigButton.vue";
     <the-big-button
       class="span-3"
       @click="
-        navigateTo({ path: '/games/fill-game', query: { level: 'tens' } })
+        navigateTo({ path: '/games/fill-game', query: { level: 'harder' } })
       "
     >
-      Dezenas
+      Muuuuito Dificil
     </the-big-button>
     <the-big-button
       class="span-3"
       @click="
-        navigateTo({ path: '/games/fill-game', query: { level: 'default' } })
+        navigateTo({ path: '/games/fill-game', query: { level: 'hard' } })
       "
     >
-      Facil
-    </the-big-button>
-    <the-big-button
-      class="span-3"
-      @click="
-        navigateTo({ path: '/games/fill-game', query: { level: 'media' } })
-      "
-    >
-      Media
+      Dificil
     </the-big-button>
   </the-grid>
 </template>

@@ -1,4 +1,4 @@
-// noinspection DuplicatedCode
+// noinspection DuplicatedCode,JSUnusedGlobalSymbols
 
 import { randomInteger, randomSample, shuffle } from "~/utils/random";
 
@@ -108,6 +108,22 @@ export class FillQuest {
 
       return new FillQuest(calculation.join(" "), solution);
     }
+  }
+
+  public static createComplexSums(): FillQuest {
+    const calculation: string[] = [];
+
+    const number1 = randomInteger(1, 30);
+    const number2 = randomInteger(1, 30);
+    const solution = number1 + number2;
+
+    calculation.push(number1.toString());
+    calculation.push(PLUS);
+    calculation.push(number2.toString());
+    calculation.push(EQUALS);
+    calculation.push(X);
+
+    return new FillQuest(calculation.join(" "), solution);
   }
 
   public static createTensMinusQuest(): FillQuest {

@@ -14,6 +14,7 @@ module.exports = {
     "vue/no-v-html": 0,
     "vue/no-multiple-template-root": 0,
     "no-useless-constructor": 0,
-    "@typescript-eslint/no-useless-constructor": ["error"]
+    "@typescript-eslint/no-useless-constructor": ["error"],
+    "@typescript-eslint/no-explicit-any": "error",
   },
 };

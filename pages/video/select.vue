@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { isVideoTypeArray } from "~/type/video-type";
 import TheGrid from "~/comps/TheGrid.vue";
 import { useRoute } from "~/composables/use-route";
 import { videoCollections } from "~/video-collections";
@@ -12,8 +11,8 @@ const collectionName = computed(() => getStringQueryParameter("collection"));
 const videos = computed(() => {
   const collection = videoCollections.get(collectionName.value);
 
-  if (!isVideoTypeArray(collection)) {
-    throw new Error("Collection not found");
+  if (!collection) {
+    throw new Error(`Could not find collection: ${collectionName.value}`);
   }
 
   return collection;

@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { clearTimeout } from "timers";
 import { useRouter } from "vue-router";
 import { useRoute } from "~/composables/use-route";
 import TheVideo from "~/comps/TheVideo.vue";
@@ -10,7 +11,9 @@ const router = useRouter();
 const timeout = computed(() => getIntQueryParameter("timeout"));
 const code = computed(() => getStringQueryParameter("code"));
 
-setTimeout(() => router.push("/"), timeout.value * 1000);
+const theTimeout = setTimeout(() => router.push("/"), timeout.value * 1000);
+
+onUnmounted(() => clearTimeout(theTimeout));
 </script>
 <template>
   <the-countdown :seconds="timeout" class="mb-2em" />
