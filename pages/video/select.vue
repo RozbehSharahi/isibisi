@@ -32,9 +32,7 @@ const videos = computed(() => {
       }"
       class="video-thumbnail span-6"
     >
-      <div class="un-clickable">
-        <the-video-teaser :code="video.code" />
-      </div>
+      <the-video-teaser :code="video.code" />
     </nuxt-link>
   </the-grid>
 </template>
@@ -45,8 +43,5 @@ const videos = computed(() => {
   &:hover {
     transform: scale(1.05);
   }
-}
-.un-clickable {
-  pointer-events: none;
 }
 </style>
