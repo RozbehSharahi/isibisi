@@ -46,7 +46,7 @@ export class FillQuest {
 
     const number1 = randomInteger(1, 5);
     const number2 = randomInteger(1, 5);
-    const number3 = randomInteger(10, 13);
+    const number3 = randomInteger(12, 15);
 
     const leftSide = shuffle([number1.toString(), number2.toString(), "x"]);
 
@@ -113,8 +113,8 @@ export class FillQuest {
   public static createComplexSums(): FillQuest {
     const calculation: string[] = [];
 
-    const number1 = randomInteger(1, 30);
-    const number2 = randomInteger(1, 30);
+    const number1 = randomInteger(1, 50);
+    const number2 = randomInteger(1, 50);
     const solution = number1 + number2;
 
     calculation.push(number1.toString());

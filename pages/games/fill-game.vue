@@ -24,24 +24,28 @@ type ConfigType = {
 
 const configs = new Map<string, ConfigType>()
   .set("hard", {
-    timeout: 60 * 6,
+    timeout: 60 * 3,
     neededPoints: 12,
     collection: DIVERSE_VIDEOS,
     createQuest: () => {
       return randomSample([
         () => FillQuest.createComplexSums(),
-        () => FillQuest.createComplexSums(),
+        () => FillQuest.create3PartSumWithXInBetweenQuest(),
       ])();
     },
   })
   .set("harder", {
     timeout: 60 * 12,
-    neededPoints: 16,
+    neededPoints: 20,
     collection: DIVERSE_VIDEOS,
     createQuest: () => {
       return randomSample([
         () => FillQuest.createComplexSums(),
         () => FillQuest.createComplexSums(),
+        () => FillQuest.createComplexSums(),
+        () => FillQuest.createMinusQuest(),
+        () => FillQuest.create3PartSumWithXInBetweenQuest(),
+        () => FillQuest.createTensPlusRandomSumQuest(),
       ])();
     },
   });
