@@ -15,7 +15,7 @@ const timeLeft = computed(() => {
 });
 
 watch(secondsLeft, () => {
-  if (secondsLeft <= 0) {
+  if (secondsLeft.value <= 0) {
     emit("finished");
   }
 });
