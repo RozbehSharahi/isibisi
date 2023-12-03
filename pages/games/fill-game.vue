@@ -30,7 +30,7 @@ const configs = new Map<string, ConfigType>()
     createQuest: () => {
       return randomSample([
         () => FillQuest.createComplexSums(),
-        () => FillQuest.create3PartSumWithXInBetweenQuest(),
+        () => FillQuest.createComplexMinus(),
       ])();
     },
   })
@@ -41,11 +41,7 @@ const configs = new Map<string, ConfigType>()
     createQuest: () => {
       return randomSample([
         () => FillQuest.createComplexSums(),
-        () => FillQuest.createComplexSums(),
-        () => FillQuest.createComplexSums(),
-        () => FillQuest.createMinusQuest(),
-        () => FillQuest.create3PartSumWithXInBetweenQuest(),
-        () => FillQuest.createTensPlusRandomSumQuest(),
+        () => FillQuest.createComplexMinus(),
       ])();
     },
   });

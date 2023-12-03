@@ -113,8 +113,8 @@ export class FillQuest {
   public static createComplexSums(): FillQuest {
     const calculation: string[] = [];
 
-    const number1 = randomInteger(1, 50);
-    const number2 = randomInteger(1, 50);
+    const number1 = randomInteger(1, 60);
+    const number2 = randomInteger(1, 60);
     const solution = number1 + number2;
 
     calculation.push(number1.toString());
@@ -169,6 +169,23 @@ export class FillQuest {
     calculation.push(X);
 
     return new FillQuest(calculation.join(" "), number1 - number2);
+  }
+
+  static createComplexMinus() {
+    const calculation: string[] = [];
+
+    const number1 = randomInteger(11, 99);
+    const number2 = randomInteger(11, 99);
+
+    const numbers = [number1, number2].sort().reverse();
+
+    calculation.push(numbers[0].toString());
+    calculation.push(MINUS);
+    calculation.push(numbers[1].toString());
+    calculation.push(EQUALS);
+    calculation.push(X);
+
+    return new FillQuest(calculation.join(" "), numbers[0] - numbers[1]);
   }
 
   public constructor(private calculation: string, private solution: number) {}
